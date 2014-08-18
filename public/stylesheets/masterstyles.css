@@ -1,0 +1,360 @@
+/* **************************************** */
+/* -------------- Styles ----------------   */
+/* **************************************** */
+
+
+/* -------------- Links  ----------------   */
+
+	a:link {
+        color:navy;
+        text-decoration:none;
+    }
+    a:active { color:red }
+    a:visited { 
+		color:purple; 
+		text-decoration:none;
+    }
+    body {
+        background-color:white;
+        color:#000000;
+    }
+
+ 
+ 
+/* **************************************** */
+/* -------------- Headings ---------------- */
+/* **************************************** */
+	.bookname {
+		display: block;
+		text-align: center;
+		font-weight: bold;
+		font-size: 200%;
+		margin-bottom: 1em;
+		font-variant: small-caps;
+		font-family:"Times New Roman";
+		page-break-after: avoid;
+	}
+	.sbbookname {
+		display: block;
+		text-align: center;
+		font-weight: bold;
+		font-size: 200%;
+		margin-top: 45px;
+		margin-bottom: 1em;
+		font-variant: small-caps;
+		font-family:"Times New Roman";
+		page-break-after: avoid;
+	}
+    .chapter {
+		font-family:"Times New Roman";
+       font-size:185%;
+		font-style:none;
+       text-decoration:none;
+       color:black;
+       vertical-align:-6px;
+		padding: 0 10px 0 0;
+		display: inline;
+		float: left;
+		margin: 0;
+		text-indent: 0;
+    }
+	.section-header {				
+		display: block;
+		text-align: left;
+		margin-top: 30px;
+		font-size: 155%;
+		text-indent: 0;
+		font-family:sans;
+		font-style:bold;
+		page-break-after: avoid;
+		}
+	.head1 {				
+		display: block;
+		text-align: left;
+		margin-top: 15px;
+		font-size: 100%;
+		text-indent: 0;
+		font-family:sans;
+		font-style:italic;
+		page-break-after: avoid;
+		}
+	.sbhead {				
+		display: block;
+		text-align: left;
+		margin-top: 24px;
+		font-size: 100%;
+		text-indent: 0;
+		font-family:sans;
+		font-style:italic;
+		page-break-after: avoid;
+	}
+	.head2 {				
+		display: block;
+		text-align: left;
+		margin: 0;
+		margin-top: 15px;
+		text-indent: 0;
+		font-weight: bold;
+		page-break-after: avoid;
+	}
+	.head3 {				
+		display: block;
+		text-align: left;
+		margin-bottom: 0;
+		margin-top: 15px;
+		font-weight: bold;
+		text-indent: 0;
+		font-size: 85%;
+		page-break-after: avoid;
+		}
+	.toc-head3 {				
+		display: block;
+		text-align: center;
+		margin-bottom: 50px;
+		margin-top: 15px;
+		font-weight: bold;
+		text-indent: 0;
+		font-size: 115%;
+		page-break-after: avoid;
+		}
+	.psalm {				
+		display: block;
+		text-align: left;
+		margin-top: 15px;
+		font-size: 101%;
+		text-indent: 0;
+		font-family:sans;
+		font-style:italic;
+		page-break-after: avoid;
+	}
+	.supertitle {			
+		display: block;
+		text-align: center;
+		margin: 0;
+		font-weight: bold;
+		font-size: 1.3em;
+		text-indent: 0;
+		text-transform: uppercase;
+		page-break-after: avoid;
+	}
+
+	.list1{
+		display: block;
+		text-indent:0;
+		font-weight: bold;
+		}
+
+	.list2{
+		display: block;
+		text-indent:15px;
+		font-weight: bold;
+		}
+
+	.list3{
+		display: block;
+		text-indent:30px;
+		font-weight: normal;
+		}
+		
+/* **************************************** */
+/* --------- Div Styles ----------------   */
+/* **************************************** */ 		
+	
+
+    .pNormal {
+        text-indent:18px;
+        text-align:left;
+    }
+    .pnoind {
+    	float: left;
+	}
+	.pCenter {
+		text-align:center;
+	}
+	.glosstext {
+		margin-top: 10px;
+		margin-right: 15px;
+		font-size: 90%;
+		display: block;
+		}  
+	.gloss{
+		font-weight: normal;
+		}
+
+	.verse{
+		font-size:70%;
+		vertical-align: 6px;
+		color:#484848
+	}
+
+	.fakeverse{
+		font-size: 70%;
+		vertical-align: 6px;
+		color:#484848
+	}
+    .hashem{
+    	font-variant: small-caps;
+    }
+	.tdyn {
+    	display: block;
+		margin-top: 0;
+		margin-right: 0;
+		margin-bottom: 0px;
+		margin-left: 18px;
+	}
+    .poem {
+    	display: block;
+		margin-top: 0;
+		margin-right: 0;
+		margin-bottom: 0;
+		margin-left: 18px;
+	}
+	
+	.rightTXT {
+	float: right;
+	text-align: right;
+	}
+
+/* **************************************** */
+/* ------------ Block Styles -------------- */
+/* **************************************** */
+	.blockindent {
+		display: block;
+		margin-top: 10px;
+		margin-right: 35px;
+		margin-bottom: 10px;
+		margin-left: 25px;
+		padding: 0;
+	}
+
+
+/* ---------- Dynamic Prose and Old Testament Dynamic Prose ------------ */
+	.dynprose, .otdynprose {
+		display: block;
+		margin-top: 10px;
+		margin-right: 0;
+		margin-bottom: 10px;
+		margin-left: 0;
+	}
+
+
+/* ---------- Poetry ------------ */
+	.poetryblock {
+		display: block;
+		margin-top: 10px;
+		margin-right: 0;
+		margin-bottom: 10px;
+		margin-left: 0;
+	}
+	.poemright {
+		float: right;
+	}
+	.in1 {
+		display: block;
+		text-indent: 0;
+		margin-left: 35px;
+	}
+
+/* ---------- Song of Solomon ------------ */
+	.songblock {
+		display: table;
+		margin-top: 0px; 
+		margin-right: 0px;
+		margin-bottom: 0px; 
+		margin-left: 0px; 
+	}
+	.songrow {
+		display: table-row;
+	}
+	.song1 {
+		display: table-cell;
+		text-align: left;
+		text-indent: 0;
+		width: 5%;
+		padding: 0;
+	}
+	.song2 {
+		display: table-cell;
+		text-align: left;
+		text-indent: 0;
+		width: 5%; 
+		padding: 0;
+	}
+	.song3 {
+		display: table-cell;
+		text-align: left;
+		text-indent: 0;
+		padding: 0;
+		width: 90%; 
+	}
+
+/* **************************************** */
+/* ---------- Paragraph Styles ------------ */
+/* **************************************** */
+	.box {
+		display: block;
+		margin: 10px 10%;
+		text-align: center;
+		font-weight: bold;
+	}
+
+
+/* **************************************** */
+/* ----------- Misc Styles ------------- */
+/* **************************************** */
+	b {font-weight: bold;}
+	br {display: block;}
+	i {font-style: italic;}
+	.otquote {font-weight: bold;}
+	.red {color: black;}
+	.small-cap {font-variant: small-caps;}
+	sub {
+	vertical-align: 0;
+	font-size: 0.7em;
+	}
+	sup {
+	vertical-align: 3px;
+	font-size: 0.7em;
+	}
+
+	.image {text-align: center;}
+	.photocaption {
+		font-size: 75%; 
+		font-style: italic; 
+		margin-bottom: 7px; 
+		margin-top: 7px;
+		margin-left: 25px;
+		margin-right: 25px;
+		text-align: center;
+		}
+
+/* **************************************** */
+/* ----------- Language Styles ------------- */
+/* **************************************** */
+	.heb {font-family: "Ezra SIL", "Narkism", "Times New Roman", serif;}
+	.lat {font-style: italic;}
+	.tarc {font-style: italic;}
+	.tgrc {font-style: italic;}
+	.theb {font-style: italic;}
+
+
+/* **************************************** */
+/* ----------- Footnotes ------------- */
+/* **************************************** */
+	.note {
+		font-size: 80%;
+		color: black;
+		text-align: left;
+		font-family: sans;
+	}
+
+	.fn {
+		font-size: 76%;
+		color: gray;
+		vertical-align:6px;
+	}
+
+
+	.nobold {font-weight: normal;}
+
+

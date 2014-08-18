@@ -1,0 +1,21 @@
+extends layout
+
+block content
+  h1= title
+
+  div#content
+   != content
+
+  link(rel="stylesheet", type="text/css", href="stylesheets/masterstyles.css")
+  script(src="http://fb.me/react-0.9.0.js")
+  script(src="js/goog/base.js", type="text/javascript")
+  script(src="js/inductive.js", type="text/javascript")
+  script(src="javascripts/htmlparser.min.js", type="text/javascript")
+  script(type="text/javascript")
+    | console.log("About to require inductive.core");
+    | goog.require("inductive.core");
+    | console.log("Done requiring inductive.core");
+    | console.log("registering roots");
+    | inductive.core.root_content()
+    | console.log("done registering roots");
+  script(type='text/javascript', id='lt_ws', src='http://localhost:64729/socket.io/lighttable/ws.js')
