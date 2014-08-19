@@ -19,12 +19,11 @@
     (do (when err
           (js/alert err)
           (.log js/console err))
-        (.log js/console xom)
         (def page-dom xom)))))
 
 (-> logging-handler
     htmlparser.Parser.
-    (.parseComplete "<div class=\"head1\">The <span class=\"hashem\">Lord</span>&#8217;s Message to Baruch</div>"))
+    (.parseComplete "<div class=\"head1\">The <span class=\"hashem\">Lord</span>&#8217;s Message to Baruch</div><div class=\"noind\"><span class=\"chapter\">45<a id=\"bible.24.45.1\"/></span> This is the word that Jeremiah the prophet spoke to Baruch son of Neriah when he wrote these words on a scroll at Jeremiah&#8217;s dictationin the fourth year of Jehoiakim son of Josiah, king of Judah:&#160;<span class=\"verse\"><a id=\"bible.24.45.2\"/>2</span>&#160;&#8220;This is what the <span class=\"hashem\">Lord</span>, the God of Israel, says to you, Baruch: <span class=\"verse\"><a id=\"bible.24.45.3\"/>3</span>&#160;&#8216;You have said, &#8220;Woe is me, because the <span class=\"hashem\">Lord</span> has added misery to my pain! I am worn out with groaning and have found no rest.&#8221;&#160;&#8217;&#160;</div><div class=\"pNormal\"><span class=\"verse\"><a id=\"bible.24.45.4\"/>4</span>&#160;&#8220;This is what you are to say to him: &#8216;This is what the <span class=\"hashem\">Lord</span> says: What I have built I am about to demolish, and what I have planted I am about to uproot&#160;&#160;&#8212;&#160;the whole land! <span class=\"verse\"><a id=\"bible.24.45.5\"/>5</span>&#160;But as for you, do you seek great things for yourself? Stop seeking! For I am about to bring disaster on every living creature&#8217;&#160;&#8212;&#160;this is the <span class=\"hashem\">Lord</span>&#8217;s declaration&#160;&#8212;&#160;&#8216;but I will grant you your life like the spoils of war wherever you go.&#8217;&#160;&#8221;</div>"))
 
 
 ;; page-dom
@@ -32,9 +31,7 @@
 (def app-state
   (atom
     {:text
-     (-> page-dom
-         (js->clj :keywordize-keys true)
-          first)
+     (js->clj page-dom :keywordize-keys true)
 
      :people
      [{:type :student :first "Ben" :last "Bitdiddle" :email "benb@mit.edu"}]
@@ -47,26 +44,25 @@
   (reify
     om/IRender
     (render [_]
-      (dom/div #js {:id "classes"}
-        (#(om/build container-view %) (:text app))))))
+      (apply dom/div #js {:id "classes"}
+        (map #(om/build container-view %) (:text app))))))
 
 
 (defn build-dom-for [elem]
-  (let [_ (.log js/console "elem-blem")
-        _ (.log js/console elem)
-        fns-by-name {"div"  dom/div
+  (let [fns-by-name {"div"  dom/div
                      "span" dom/span}
         fns-by-type {"text" (fn [attrs children]
-                              (.log js/console "elem" (str elem) "attrs" (str attrs) "children" (str children))
                               (dom/span attrs (str (:data elem))))}
         dom-fn (or (get fns-by-type (:type elem))
                    (get fns-by-name (:name elem))
-                   ;dom/span
+                   dom/span
                    )
-        attributes (->> (:attribs elem)
-                        (map (fn [[k v]] [(if (= k :class) :className k) v]))
-                        (into {})
-                        clj->js)]
+        attribs    (:attribs elem)
+        attributes (when attribs
+                     (->> attribs
+                          (map (fn [[k v]] [(if (= k :class) :className k) v]))
+                          (into {})
+                          clj->js))]
     (fn [attrs children]
       (apply dom-fn attributes (om/build-all container-view (:children elem))))))
 
