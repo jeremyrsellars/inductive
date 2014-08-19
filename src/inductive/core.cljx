@@ -48,11 +48,27 @@
         (map #(om/build container-view %) (:text app))))))
 
 
+#+cljs
+(defn- unescape-decimal [r]
+  (js/String.fromCharCode (js/parseInt r 10)))
+#+cljs
+(defn- unescape-hex [r]
+  (js/String.fromCharCode (js/parseInt r 16)))
+
+(defn- unescape-html [html]
+  (string/replace html
+                  #"&(?:#(\d+)|(\d+));"
+                  (fn [_ asc hex-asc] (cond (string? asc) (unescape-decimal asc)
+                                            (string? hex-asc) (unescape-hex hex-asc)))))
+
 (defn build-dom-for [elem]
   (let [fns-by-name {"div"  dom/div
-                     "span" dom/span}
+                     "span" dom/span
+                     "a"    dom/a}
         fns-by-type {"text" (fn [attrs children]
-                              (dom/span attrs (str (:data elem))))}
+                              (let [raw-html (:data elem)
+                                    data (unescape-html raw-html)]
+                                (dom/span attrs data)))}
         dom-fn (or (get fns-by-type (:type elem))
                    (get fns-by-name (:name elem))
                    dom/span
@@ -72,7 +88,6 @@
   (reify
     om/IRender
     (render [_]
-            (let [_ (.log js/console (str elem))])
       (apply (build-dom-for elem) {:className (-> elem :attribs :class)}
         (map #((build-dom-for %) nil (str (:data %))) (:children elem))))))
 
