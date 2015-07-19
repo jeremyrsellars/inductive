@@ -1,7 +1,9 @@
 (ns inductive.core
+  #+cljs (:require-macros [cljs.core.async.macros :refer [go]])
   (:require [om.core :as om :include-macros true]
             [om.dom :as dom :include-macros true]
             [clojure.string :as string]
+            [cljs.core.async :refer [put! chan <!]]
      #+node [cljs.nodejs :as nodejs]
   #+browser [goog.events :as events]
             )
@@ -16,20 +18,16 @@
   #+node    (nodejs/require "htmlparser")
   #+browser Tautologistics.NodeHtmlParser)
 
-
-;;(.log js/console "wazza!")
-
+(def app-state)
 (def root-content)
 
-(def logging-handler
- (htmlparser.DefaultHandler.
-  (fn [err xom]
-    (do (when err
-          (js/alert err)
-          (.log js/console err))
-        (def page-dom xom)
-        (root-content)))))
 
+(defn handler [on-success on-error]
+  (htmlparser.DefaultHandler.
+    (fn html-parse-complete [err xom]
+      (if err
+        (on-error err)
+        (on-success xom)))))
 
 (def ^:private meths
   {:get "GET"
@@ -37,22 +35,23 @@
    :post "POST"
    :delete "DELETE"})
 
-(defn parse-to-handler [xml]
-  (-> logging-handler
+(defn parse-to-handler [xml handler]
+  (-> handler
       htmlparser.Parser.
       (.parseComplete xml)))
 
 #+browser
-(defn xml-xhr [{:keys [method url data]}]
+(defn xml-xhr [{:keys [method url data complete]}]
   (let [xhr (XhrIo.)]
     (events/listen xhr goog.net.EventType.COMPLETE
       (fn [e]
-        (parse-to-handler (.getResponseText xhr))))
+        (parse-to-handler (.getResponseText xhr) (handler (or complete #(.log js/console "no :complete callback defined" %)) #(.log js/console %)))))
     (. xhr
       (send url (meths method) (when data (pr-str data))
-        #js {"Content-Type" "application/edn"}))))
+        #js {"Content-Type" "application/edn"}))
+    :async))
 
-(xml-xhr {:method :get, :url "/hcsb/HCSB-24_Jer_26_nonotes.xhtml"})
+;(xml-xhr {:method :get, :url "/hcsb/HCSB-24_Jer_26_nonotes.xhtml", :complete #(.log js/console %)})
 
 
 ;; (-> logging-handler
@@ -78,8 +77,33 @@
   (reify
     om/IRender
     (render [_]
-      (apply dom/div #js {:id "classes"}
-        (map #(om/build container-view %) (:text app))))))
+      (apply dom/div #js {:id "text"}
+        (map (fn [c]
+               (.log js/console c)
+               (om/build container-view c)) (:text app))))))
+
+(defn app-view [app owner]
+  (reify
+    om/IInitState
+    (init-state [_]
+      {:new-page (chan)})
+    om/IWillMount
+    (will-mount [_]
+      (let [new-page (om/get-state owner :new-page)]
+        (xml-xhr {:method :get, :url "/hcsb/HCSB-24_Jer_26_nonotes.xhtml", :complete #(put! new-page %)})
+        (go (loop []
+          (let [xom (<! new-page)]
+            (.log js/console "read from channel:")
+            (.log js/console (str xom))
+            (om/transact! app :text
+              (fn [xs]
+                (.log js/console "transacting!" xom)
+                     (js->clj xom :keywordize-keys true)))
+            (recur))))))
+    om/IRender
+    (render [_]
+      (dom/div #js {:id "app"}
+        (om/build text-view app)))))
 
 
 #+cljs
@@ -126,7 +150,7 @@
     (fn [attrs children]
       (apply dom-fn attributes (om/build-all container-view (:children elem))))))
 
-(build-dom-for (:text @app-state))
+;(build-dom-for (:text @app-state))
 
 (defn container-view [elem owner]
   (reify
@@ -247,7 +271,7 @@
 
 #+browser
 (defn root-content []
-  (om/root text-view app-state
+  (om/root app-view app-state
     {:target (. js/document (getElementById "content"))}))
 
 
