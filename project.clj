@@ -1,21 +1,20 @@
-(defproject om-tut "0.1.0-SNAPSHOT"
+(defproject inductive-study "0.1.0-SNAPSHOT"
   :description "A tool for inductive [bible] study"
-  :url "http://example.com/FIXME"
+  :url "https://github.com/jeremyrsellars/inductive-study"
 
-  :dependencies [[org.clojure/clojure "1.5.1"]
-                 [org.clojure/clojurescript "0.0-2173"]
-                 [org.clojure/core.async "0.1.267.0-0d7780-alpha"]
-                 [com.cemerick/clojurescript.test "0.3.1"]
-                 [om "0.5.0"]]
+  :dependencies [[org.clojure/clojure "1.7.0"]
+                 [org.clojure/clojurescript "0.0-3308"]
+                 [org.clojure/core.async "0.1.346.0-17112a-alpha"]
+                 [om "0.7.3"]]
 
-  :plugins [[lein-cljsbuild "1.0.2"]
-            [com.keminglabs/cljx "0.4.0"]
+  :plugins [[lein-cljsbuild "1.0.6"]
+            [com.keminglabs/cljx "0.6.0"]
             [com.cemerick/clojurescript.test "0.3.1"]]
 
   :source-paths ["src" "test"]
 
-  :profiles {:dev {:dependencies [[criterium "0.4.1"]
-                                  [com.keminglabs/cljx "0.4.0"]]
+  :profiles {:dev {:dependencies [[criterium "0.4.3"]
+                                  [com.keminglabs/cljx "0.6.0"]]
                    :repl-options {:nrepl-middleware [cljx.repl-middleware/wrap-cljx]}
                    :hooks [cljx.hooks]}}
   :cljx {:builds [{:source-paths ["src" "test"]
